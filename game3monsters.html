@@ -242,7 +242,7 @@ display: inline-block;
   100%  {top: -100vh;}
 }
 
-#hippoStartGif {
+#butterflyStartGif {
   position: absolute;
   z-index: -1;
   bottom: 15vh;
@@ -364,14 +364,10 @@ display: inline-block;
 </head>
 
 <script>
-
-var groundHeight;
-var userHzPos = 0;
-var userVtPos;
 var gameBegun = false;
 
-var miniAlphabet = ["A","E","I"];
-var vocabulary = ["cat","chat","hat","rat","bat1","bat2"];
+var miniAlphabet = ["A","B","I","M","N","P","T","W"];
+var vocabulary = ["pin","tin","hat","rat","bat1","bat2"];
 // words are: (j)et, (n)et, (p)et, (v)et, (g)reen, (y)ellow, bl(u)e, pl(a)net (8)
 var vocabWordAfterSplit = ["I","AIL","UNK","OON","OPE","ADIUM","AME","INNER"];
 var vocabularyTargetLetter = ["K","N","K","P","L","T","N","W"];
@@ -392,12 +388,6 @@ window.onload = function() {
   var doubleWindowWidth = windowWidth*2;
   var doubleWindowHeight = windowHeight*2;
 
-
-  groundHeight = 4;
-  userVtPos = groundHeight;
-
-  // console.log("userVtPos is: " + userVtPos);
-  // console.log("groundHeight is: " + groundHeight);
 
   //console.log(heightOfStaticLetters);
   //document.getElementById("wrongX").style.height = heightOfStaticLetters + "px";
@@ -427,9 +417,9 @@ window.onload = function() {
       document.getElementById("lettersCaptured").style.animationPlayState = "paused";
   });
 
-  var hippoStartGifPos = document.getElementById("hippoStartGif").getBoundingClientRect();
+  var butterflyStartGifPos = document.getElementById("butterflyStartGif").getBoundingClientRect();
   var bodyDimensions = document.body.getBoundingClientRect();
-  document.getElementById("hippoStartGif").style.left = (bodyDimensions.width-hippoStartGifPos.width)/2 + "px";
+  document.getElementById("butterflyStartGif").style.left = (bodyDimensions.width-butterflyStartGifPos.width)/2 + "px";
 
   var happyHippoGifPos = document.getElementById("happyHippoGif").getBoundingClientRect();
   document.getElementById("happyHippoGif").style.left = (bodyDimensions.width-happyHippoGifPos.width)/2 + "px";
@@ -461,9 +451,10 @@ function swingNet() {
       // var angle = window.getComputedStyle(document.getElementById("letterSelectionCurtain")).transform;
       // alert(angle);
       // angle = Number(pos.slice(0,-2));
-      if (angle > 0) {
+      if (angle >= 0 && !swingForwards) {
         // document.getElementById("letterSelectionCurtain").style.bottom = window.innerHeight + "px";
         swingForwards = true;
+        angle = 0;
         clearInterval(swingNetAnimation);
       } else if (!swingForwards) {
           angle = angle + 12;
@@ -473,55 +464,108 @@ function swingNet() {
         angle = angle - 12;
       }
       document.getElementById("netCursor").style.transform = "rotate(" + angle + "deg)";
+    }       // end of frame function
+
+    var butterflyCollection = document.getElementsByClassName("butterflyImgElement");
+    var cursor = document.getElementById('netCursor');
+    var cursorDimensions = cursor.getBoundingClientRect();
+    var netImgCenterPoint = [cursorDimensions.left + cursorDimensions.width/2, cursorDimensions.top + cursorDimensions.height/2];
+    // alert(netImgCenterPoint);
+
+    // alert(cursorDimensions.left);
+    for (let butterfly of butterflyCollection) {
+      // console.log(butterfly.src);
+      var butterflyDimensions = butterfly.getBoundingClientRect();
+      var butterflyCenterPoint = [butterflyDimensions.left + butterflyDimensions.width/2, butterflyDimensions.top + butterflyDimensions.height/2];
+      var netToButterflyDistance = Math.pow(Math.pow((butterflyCenterPoint[0]-netImgCenterPoint[0]),2) + Math.pow((butterflyCenterPoint[1]-netImgCenterPoint[1]),2),0.5);
+      var netToButterflyDistanceInVH = netToButterflyDistance / window.innerHeight;
+      if (netToButterflyDistanceInVH > 0.21 && netToButterflyDistanceInVH < 0.42 && butterflyCenterPoint[0] < netImgCenterPoint [0] && butterflyCenterPoint[1] < netImgCenterPoint [1]) {
+        window.setTimeout(butterflyIsCaught.bind(null, butterfly), 200);
+      }
     }
-  }
+
+
+
+  }         // end of 'if game has begun...'
 }
 
 function generateButterflies() {
-  if (butterflyCount < 10) {
+  if (butterflyCount < 7) {
     butterflyCount++;
-    console.log(butterflyCount);
+    //console.log(butterflyCount);
     var speedMultiplier = 2;
     var newButterfly = document.createElement("IMG");
+    newButterfly.setAttribute("class", "butterflyImgElement");
     // var randomLetter = String.fromCharCode(65 + Math.random()*26);           // this was for the whole alphabet
     var randomLetter = Math.floor(Math.random()*miniAlphabet.length);
-    // if (randomLetter == "A" || randomLetter == "E" || randomLetter == "I") {
-    //   ;
-    // } else {
-    //   randomLetter = "A";
-    // }
     randomLetter = miniAlphabet[randomLetter];
-    newButterfly.src = "images/letter" + randomLetter + ".gif";
     newButterfly.style.width = "10vw";
-    var randomAngle = Math.random()*360;
-    newButterfly.style.position = "absolute";
-    newButterfly.style.left = "20vw";
-    newButterfly.style.top = "50vh";
-    if ((randomAngle >= 0 && randomAngle <= 32.5) || (randomAngle <= 360 && randomAngle > 327.5)) {       // origin bottom center
-      newButterfly.style.left = "45vw";
-      newButterfly.style.top = "100vh";
-    } else if (randomAngle > 32.5 && randomAngle <= 77.5) {         // origin bottom left
-      newButterfly.style.left = "-10vw";
-      newButterfly.style.top = "100vh";
-    } else if (randomAngle > 77.5 && randomAngle <= 102.5) {        // origin left center
-      newButterfly.style.left = "-10vw";
-      newButterfly.style.top = "45vh";
-    } else if (randomAngle > 102.5 && randomAngle <= 147.5) {       // origin top left
-      newButterfly.style.left = "-10vw";
-      newButterfly.style.top = "-10vh";
-    } else if (randomAngle > 147.5 && randomAngle <= 212.5) {       // origin top center
-      newButterfly.style.left = "45vw";
-      newButterfly.style.top = "-10vh";
-    } else if (randomAngle > 212.5 && randomAngle <= 257.5) {       // origin top right
-      newButterfly.style.left = "100vw";
-      newButterfly.style.top = "-10vh";
-    } else if (randomAngle > 257.5 && randomAngle <= 282.5) {       // origin right center
-      newButterfly.style.left = "100vw";
-      newButterfly.style.top = "45vh";
-    } else if (randomAngle > 282.5 && randomAngle <= 327.5) {       // origin bottom right
-      newButterfly.style.left = "100vw";
-      newButterfly.style.top = "100vh";
+
+    do {
+      var randomAngle = Math.random()*360;
+    } while ( (randomAngle >= 30 && randomAngle <= 150) || (randomAngle >= 210 && randomAngle <= 330) );
+
+    if (randomAngle > 150 && randomAngle < 210) {
+      newButterfly.src = "images/upsLetter" + randomLetter + ".gif";
+    } else {
+      newButterfly.src = "images/letter" + randomLetter + ".gif";
     }
+
+    var randomHzMovement;
+
+    newButterfly.style.position = "absolute";
+    var hzPosInVW = 20;
+    newButterfly.style.top = "50vh";
+    var adjAngle = randomAngle;
+
+    if (randomAngle > 330 || randomAngle < 30) {              // if the butterfly is flying upward...
+      if (adjAngle > 330) {
+        adjAngle = randomAngle-360;
+      }
+      do {
+        randomHzMovement = Math.random()*80 - 40;             // random horizontal movement is a value between -40 and +40
+        hzPosInVW = ((45-1.6667*adjAngle) + randomHzMovement);
+      } while (hzPosInVW < -5 || hzPosInVW > 95);
+      newButterfly.style.left = hzPosInVW + "vw";
+      newButterfly.style.top = "100vh";
+      // console.log(newButterfly.style.left + " bottom");
+
+    } else {                                                  // if the butterfly is flying downward...
+      adjAngle = randomAngle-150;
+      do {
+        randomHzMovement = Math.random()*80 - 40;             // random horizontal movement is a value between -40 and +40
+        hzPosInVW = (1.6667*adjAngle + randomHzMovement);
+      } while (hzPosInVW < -5 || hzPosInVW > 95);
+      newButterfly.style.left = hzPosInVW + "vw";
+      newButterfly.style.top = "-10vh";
+      // console.log(newButterfly.style.left + " top");
+    }
+
+    // if ((randomAngle >= 0 && randomAngle <= 32.5) || (randomAngle <= 360 && randomAngle > 327.5)) {       // origin bottom center
+    //   newButterfly.style.left = "45vw";
+    //   newButterfly.style.top = "100vh";
+    // } else if (randomAngle > 32.5 && randomAngle <= 77.5) {         // origin bottom left
+    //   newButterfly.style.left = "-10vw";
+    //   newButterfly.style.top = "100vh";
+    // } else if (randomAngle > 77.5 && randomAngle <= 102.5) {        // origin left center
+    //   newButterfly.style.left = "-10vw";
+    //   newButterfly.style.top = "45vh";
+    // } else if (randomAngle > 102.5 && randomAngle <= 147.5) {       // origin top left
+    //   newButterfly.style.left = "-10vw";
+    //   newButterfly.style.top = "-10vh";
+    // } else if (randomAngle > 147.5 && randomAngle <= 212.5) {       // origin top center
+    //   newButterfly.style.left = "45vw";
+    //   newButterfly.style.top = "-10vh";
+    // } else if (randomAngle > 212.5 && randomAngle <= 257.5) {       // origin top right
+    //   newButterfly.style.left = "100vw";
+    //   newButterfly.style.top = "-10vh";
+    // } else if (randomAngle > 257.5 && randomAngle <= 282.5) {       // origin right center
+    //   newButterfly.style.left = "100vw";
+    //   newButterfly.style.top = "45vh";
+    // } else if (randomAngle > 282.5 && randomAngle <= 327.5) {       // origin bottom right
+    //   newButterfly.style.left = "100vw";
+    //   newButterfly.style.top = "100vh";
+    // }
 
     newButterfly.setAttribute("id","butterfly"+butterflyCount);
     // var randomInt = Math.floor((Math.random() * miniAlphabet.length ));
@@ -570,6 +614,11 @@ function generateButterflies() {
   }
 
 
+}
+
+function butterflyIsCaught(butterflyElement) {
+  butterflyCount--;
+  butterflyElement.remove();
 }
 
 function wordSpelledSuccessfully() {
@@ -668,7 +717,7 @@ function getRidOfFullScreenVocabPic(imgElement) {
 </div> -->
 
 <div id="startingCurtain">
-<img id="hippoStartGif" src="images/startingPic.gif" onclick="startingCurtainGoUp()">
+<img id="butterflyStartGif" src="images/startingPic.gif" onclick="startingCurtainGoUp()">
 BUTTERFLY<br>CATCHER
 </div>
 
