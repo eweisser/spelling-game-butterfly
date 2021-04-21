@@ -29,7 +29,7 @@ body {
   left: 3vw;
   top: 4vh;
   /* width: 20vw; */
-  height: 75vh;
+  height: 55vh;
 }
 
 #lettersCaptured {
@@ -156,14 +156,16 @@ body {
   width: 8vw;
 }
 
-#sideWhite {
+#topWhite {
   position: absolute;
   display: none;
   background-color: #FFF;
   right: 0;
-  top: 0vh;
-  width: 15vw;
-  height: 100vh;
+  top: 0;
+  width: 100vw;
+  height: 15vh;
+  border-bottom: 3px solid black;
+  z-index: 1;
 }
 
 span {
@@ -366,8 +368,8 @@ display: inline-block;
 <script>
 var gameBegun = false;
 
-var miniAlphabet = ["A","B","I","M","N","P","T","W"];
-var vocabulary = ["pin","tin","hat","rat","bat1","bat2"];
+var miniAlphabet = ["A","B","I","M","N","P","Q","T","U","W","Z"];
+var vocabulary = ["pin","tin","win","bin","man","quiz"];
 // words are: (j)et, (n)et, (p)et, (v)et, (g)reen, (y)ellow, bl(u)e, pl(a)net (8)
 var vocabWordAfterSplit = ["I","AIL","UNK","OON","OPE","ADIUM","AME","INNER"];
 var vocabularyTargetLetter = ["K","N","K","P","L","T","N","W"];
@@ -434,6 +436,7 @@ window.onload = function() {
 function startingCurtainGoUp() {
   document.getElementById("startingCurtain").style.animationPlayState = "running";
   gameBegun = true;
+  document.getElementById("topWhite").style.display = "block";
   generateButterflies();
   window.setInterval(generateButterflies, 800);
 }
@@ -499,7 +502,7 @@ function generateButterflies() {
     // var randomLetter = String.fromCharCode(65 + Math.random()*26);           // this was for the whole alphabet
     var randomLetter = Math.floor(Math.random()*miniAlphabet.length);
     randomLetter = miniAlphabet[randomLetter];
-    newButterfly.style.width = "10vw";
+    newButterfly.style.width = "9vw";         // used to be 10vw
 
     do {
       var randomAngle = Math.random()*360;
@@ -682,7 +685,7 @@ function getRidOfFullScreenVocabPic(imgElement) {
 
 <div id="wholescreen">
 
-<div id="sideWhite">
+<div id="topWhite">
 <div id="lettersCaptured"></div>
 </div>
 
