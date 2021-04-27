@@ -371,7 +371,7 @@ display: inline-block;
 <script>
 var gameBegun = false;
 
-var miniAlphabet = ["A","B","E","I","M","N","P","R","T","U","W"];
+var miniAlphabet = ["A","B","C","D","E","F","I","M","N","P","R","T","U","W"];
 //var vocabulary = ["pin","tin","win","bin","man","quiz"];
 var vocabulary = ["drum","dragon","barbecue","grill","trumpet","crab","friends"];
 var recentLetterRecord = [];
@@ -411,7 +411,9 @@ window.onload = function() {
   lettersCaptured.addEventListener('animationiteration', function() {
       document.getElementById("lettersCaptured").innerHTML = "";
       var newWordArray = generateRandomVocabWord();
+      var vocabWordFilename = newWordArray[0];
       var vocabWordItself = newWordArray[1];
+      document.getElementById("vocabPicture").src = vocabWordFilename;
 
       var indexOfChosenVocabWord = vocabulary.indexOf(vocabWordItself);
       vocabulary.splice(indexOfChosenVocabWord, 1);
