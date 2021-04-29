@@ -9,7 +9,7 @@
 <!-- butterfly styles:
 1 (long antennae)   E M N T Z
 2 (short antennae)  A P R U W
-3 (inv antennae)    B I Q -->
+3 (inv antennae)    B I Q C -->
 
 <style>
 
@@ -371,9 +371,9 @@ display: inline-block;
 <script>
 var gameBegun = false;
 
-var miniAlphabet = ["A","B","C","D","E","F","I","M","N","P","R","T","U","W"];
+var miniAlphabet = ["A","B","C","D","E","F","G","I","L","M","N","O","P","R","S","T","U"];
 //var vocabulary = ["pin","tin","win","bin","man","quiz"];
-var vocabulary = ["drum","dragon","barbecue","grill","trumpet","crab","friends"];
+var vocabulary = ["drum","dragon","barbecue","grill","trumpet","crab","friends","costume"];
 var recentLetterRecord = [];
 var currentVocabWord = "";
 
@@ -513,8 +513,28 @@ function generateButterflies() {
     var newButterfly = document.createElement("IMG");
     newButterfly.setAttribute("class", "butterflyImgElement");
     // var randomLetter = String.fromCharCode(65 + Math.random()*26);           // this was for the whole alphabet
-    var randomLetter = Math.floor(Math.random()*miniAlphabet.length);
-    randomLetter = miniAlphabet[randomLetter];
+    var randomLetter = Math.floor(Math.random()*miniAlphabet.length);           // generate random int in the range of the indices of the letter list
+    randomLetter = miniAlphabet[randomLetter];                                  // assign actual letter
+    var awaitedLetter = "";
+
+    for (letter of miniAlphabet) {
+      if (currentVocabWord.startsWith(document.getElementById("lettersCaptured").innerHTML + letter.toLowerCase())) {
+        awaitedLetter = letter;
+        break;
+      }
+    }
+    if (recentLetterRecord.length > 2) {    // we'll force it to be the needed letter
+      randomLetter = awaitedLetter;
+    }
+
+    recentLetterRecord.push(randomLetter);
+    if (currentVocabWord.startsWith(document.getElementById("lettersCaptured").innerHTML + randomLetter.toLowerCase())) {
+      recentLetterRecord = [];
+    }
+
+    console.log(document.getElementById("lettersCaptured").innerHTML + randomLetter);
+    console.log(recentLetterRecord);
+
     newButterfly.style.width = "9vw";         // used to be 10vw
     newButterfly.style.zIndex = "-1";
 
