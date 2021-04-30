@@ -7,7 +7,7 @@
 <!-- read about pointer lock or mouse lock at https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API ...there's also another link in the bookmarks-->
 
 <!-- butterfly styles:
-1 (long antennae)   E M N T Z
+1 (long antennae)   E M N T Z L
 2 (short antennae)  A P R U W
 3 (inv antennae)    B I Q C -->
 
@@ -141,18 +141,27 @@ body {
   padding-left: 2%;
   font-size: 10vh;
   font-family: Arial;
+  font-weight: bold;
   animation-name: textOnWordCompletion;
-  animation-duration: 3s;
+  animation-duration: 3s;                 /* change it back to 2.5s */
   animation-iteration-count: infinite;
   animation-play-state: paused;
+  animation-timing-function: linear;
   z-index: 2;
 }
 
 @keyframes textOnWordCompletion {
-  0%    {color: #000; font-size: 10vh}
-  40%   {color: #FF0; font-size: 48vh}
-  60%   {color: #FF0; font-size: 48vh}
-  100%  {color: #000; font-size: 10vh}
+  0%    {color: #000; left: 14vw}
+  11%   {color: #F00; left: 24vw}
+  22%   {color: #FF0; left: 34vw}
+  33%   {color: #0F0; left: 44vw}
+  44%   {color: #0FF; left: 54vw}
+  55%   {color: #00F; left: 64vw}
+  66%   {color: #F0F; left: 74vw}
+  77%   {color: #F00; left: 84vw}
+  88%   {color: #000; left: 94vw}
+  99%   {color: #000; left: 104vw}
+  100%  {color: #000; left: 104vw}
 }
 
 #movingLetter {
