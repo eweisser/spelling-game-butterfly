@@ -164,174 +164,14 @@ body {
   100%  {color: #000; left: 104vw}
 }
 
-#movingLetter {
-  position: absolute;
-  display: none;
-  left: 8vw;
-  bottom: 100vh;
-  width: 15vw;
-  animation-name: movingLetterRiseFall;
-  animation-duration: 4.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
-}
-
-@keyframes movingLetterRiseFall {
-  0%    {bottom: 105vh;}
-  100%  {bottom: -30vh;}
-}
-
-@keyframes fadeAway {
-  0%    {opacity: 1;}
-  100%  {opacity: 0;}
-}
-
-#movingLetter2 {
-  animation-play-state: running;
-  display: none;
-  position: absolute;
-  left: 35vw;
-  bottom: 100vh;
-  width: 15vw;
-  animation-name: movingLetterRiseFall2;
-  animation-duration: 4.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-  animation-delay: 1.5s;
-}
-
-@keyframes movingLetterRiseFall2 {
-  0%    {bottom: 105vh;}
-  100%  {bottom: -30vh;}
-}
-
-#movingLetter3 {
-  animation-play-state: running;
-  display: none;
-  position: absolute;
-  left: 62vw;
-  bottom: 100vh;
-  width: 15vw;
-  animation-name: movingLetterRiseFall3;
-  animation-duration: 4.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-  animation-delay: 3s;
-}
-
-@keyframes movingLetterRiseFall3 {
-  0%    {bottom: 105vh;}
-  100%  {bottom: -30vh;}
-}
-
 span {
 font: #000000;
 font-size: 24px;
 display: inline-block;
 }
 
-#acceptableArea {
-  position: absolute;
-  background-color: #FF000000;
-  top: 45vh;
-  left: 30vw;
-  height: 10vh;
-  width: 20vw;
-}
-
-@keyframes correctKidRiseFall {
-  0%    {top: 100vh;}
-  50%    {top: 55vh;}
-  100%  {top: 100vh;}
-}
-
-@keyframes incorrectKidRiseFall {
-  0%    {top: 100vh;}
-  50%    {top: 55vh;}
-  100%  {top: 100vh;}
-}
-
-#wrongX {
-  display: none;
-  width: 36vw;
-  /* height: 30vh; */
-  position: absolute;
-  left: 20vw;
-  top: 55vh;
-}
-
-/* #letterSelectionCurtain {
-  cursor: default;
-  background-color: #FFFFFF88;
-  display: none;
-  position: fixed;
-  left: 0%;
-  width: 100%;
-  height: 100%;
-  bottom: 0px;
-  text-align: center;
-  font-family: "Georgia","Wide Latin";
-  font-weight: bold;
-  color: #F00;
-  font-size: 5vw;
-}
-
-#letterSelectionInnerBkgd {
-  background-color: #FFF;
-  border: 5px solid black;
-  border-radius: 5%;
-  position: absolute;
-  top: 5%;
-  left: 15%;
-  width: 70%;
-  height: 80%;
-  z-index: -1;
-}
-
-#pickALetterText {
-  /* background-color: #FF0; */
-  /* height: 25vh;
-  line-height: 30vh;
-}
-
-#pickALetterImagesRow1 {
-  /* background-color: #FC0; */
-  /* margin-bottom: 5vh;
-} */
-
-#fullScreenVocabPic {
-  cursor: default;
-  display: block;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  left: 0vw;
-  top: 100vh;
-  /* text-align: center;
-  font-family: "Georgia","Wide Latin";
-  font-weight: bold; */
-  /* color: #F00;
-  font-size: 5vw; */
-
-  /* animation-name: fullScreenVocabPicGoUp;
-  animation-play-state: paused;
-  animation-iteration-count: infinite;
-  animation-duration: 1.2s;
-  animation-fill-mode: forwards;
-  animation-timing-function: linear; */
-}
-
-@keyframes fullScreenVocabPicGoUp {
-  0%    {top: 100vh;}
-  100%  {top: 0vh;}
-}
-
 #gameOverScreen {
-  background-color: #90D8FF;
+  background-color: #9FD;
   font-size: 15vw;
   text-align: center;
   display: block;
@@ -360,19 +200,6 @@ display: inline-block;
   left: 0vw;
 }
 
-/*
-#hitbox {
-  position: absolute;
-  top: 0;
-  width: 10vh;
-  height: 10vh;
-  border: 4px solid #5AF;
-}
-*/
-
-
-
-
 </style>
 
 </head>
@@ -385,12 +212,7 @@ var miniAlphabet = ["A","B","C","D","E","F","G","I","L","M","N","O","P","R","S",
 var vocabulary = ["drum","dragon","barbecue","grill","trumpet","crab","friends","costume"];
 var recentLetterRecord = [];
 var currentVocabWord = "";
-
-var randomNo;
-
-var randomLetterImgFile = "images/letterK.png";
 var currentVocabularyIndex = 0;
-
 var butterflyCount = 0;
 
 window.onload = function() {
@@ -410,10 +232,8 @@ window.onload = function() {
   document.addEventListener('mousemove', function(e){
       var x = e.clientX;
       var y = e.clientY;
-      cursor.style.left = (x-300) + "px";
+      cursor.style.left = (x-100) + "px";
       cursor.style.top = (y-150) + "px";
-
-      checkIfCompletingWord();
   });
 
   var lettersCaptured = document.getElementById('lettersCaptured');
@@ -433,12 +253,6 @@ window.onload = function() {
   var vocabPicture = document.getElementById('vocabPicture');
   vocabPicture.addEventListener('animationiteration', function() {
       document.getElementById("vocabPicture").style.animationPlayState = "paused";
-      // document.getElementById("movingLetter").style.animationPlayState = "running";
-      // document.getElementById("movingLetter").style.opacity = "1";
-      // document.getElementById("movingLetter2").style.animationPlayState = "running";
-      // document.getElementById("movingLetter2").style.opacity = "1";
-      // document.getElementById("movingLetter3").style.animationPlayState = "running";
-      // document.getElementById("movingLetter3").style.opacity = "1";
   });
 
   var butterflyStartGifPos = document.getElementById("butterflyStartGif").getBoundingClientRect();
@@ -447,10 +261,6 @@ window.onload = function() {
 
   var happyHippoGifPos = document.getElementById("happyHippoGif").getBoundingClientRect();
   document.getElementById("happyHippoGif").style.left = (bodyDimensions.width-happyHippoGifPos.width)/2 + "px";
-
-  fullScreenVocabPic.addEventListener('animationend', () => {
-    document.getElementById("fullScreenVocabPic").style.animationPlayState = "paused";
-  });
 
 
 }     ///////////////////// END OF window.onload FUNCTION /////////////////////////////////////////////////
@@ -523,6 +333,7 @@ function generateButterflies() {
     newButterfly.setAttribute("class", "butterflyImgElement");
     // var randomLetter = String.fromCharCode(65 + Math.random()*26);           // this was for the whole alphabet
     var randomLetter = Math.floor(Math.random()*miniAlphabet.length);           // generate random int in the range of the indices of the letter list
+    alert(miniAlphabet.length);
     randomLetter = miniAlphabet[randomLetter];                                  // assign actual letter
     var awaitedLetter = "";
 
@@ -614,12 +425,10 @@ function generateButterflies() {
     // }
 
     newButterfly.setAttribute("id","butterfly"+butterflyCount);
-    // var randomInt = Math.floor((Math.random() * miniAlphabet.length ));
 
     newButterfly.style.transform = "rotate(" + randomAngle + "deg)";
     var butterflyMovementVectorArray = calculateButterflyVectors(randomAngle);
-    // alert(butterflyMovementVectorArray);
-    // alert(newButterfly.id);
+
     document.body.appendChild(newButterfly);
 
     var butterflyAnimation = setInterval(frame, 10);
@@ -680,52 +489,6 @@ function butterflyIsCaught(butterflyElement) {
 function wordSpelledSuccessfully() {
   document.getElementById("vocabPicture").style.animationPlayState = "running";  // run the animation of the just-spelled word enlarging
   document.getElementById("lettersCaptured").style.animationPlayState = "running";  // run the animation of the just-spelled word enlarging
-  // document.getElementById("movingLetter").style.animationPlayState = "paused";
-  // document.getElementById("movingLetter").style.opacity = "0";
-  // document.getElementById("movingLetter2").style.animationPlayState = "paused";
-  // document.getElementById("movingLetter2").style.opacity = "0";
-  // document.getElementById("movingLetter3").style.animationPlayState = "paused";
-  // document.getElementById("movingLetter3").style.opacity = "0";
-}
-
-function checkIfCompletingWord() {
-  // if (userHzPos >= 0.173 && userHzPos <= 0.188 && userVtPos < 87.1 && userVtPos > 86.9) {
-  //   if (letterOfCursor == "A" && document.getElementById("candidateA").style.visibility != "hidden") {
-  //     document.getElementById("candidateA").style.visibility = "hidden";
-  //     document.getElementById("fullScreenVocabPic").src = "images/planet.jpg";
-  //     var showVocabPicFullScreen = setInterval(frame, 5);
-  //   }
-  // } else if (userHzPos >= 0.618 && userHzPos <= 0.632 && userVtPos < 76.1 && userVtPos > 75.9) {
-  //   if (letterOfCursor == "G") {
-  //     document.getElementById("fullScreenVocabPic").src = "images/green.jpg";
-  //     showVocabPicFullScreen(letterOfCursor);
-  //   }
-  // } else if (userHzPos >= 0.81 && userHzPos <= 0.832 && userVtPos < 46.1 && userVtPos > 45.9) {
-  //   if (letterOfCursor == "J") {
-  //     document.getElementById("fullScreenVocabPic").src = "images/jet.jpg";
-  //     showVocabPicFullScreen(letterOfCursor);
-  //   }
-  // } else if (userHzPos >= 0.72 && userHzPos <= 0.738 && userVtPos < 125.1 && userVtPos > 124.9) {
-  //   if (letterOfCursor == "N") {
-  //     document.getElementById("fullScreenVocabPic").src = "images/net.jpg";
-  //     showVocabPicFullScreen(letterOfCursor);
-  //   }
-  // } else if (userHzPos >= 0.735 && userHzPos <= 0.757 && userVtPos < 168.1 && userVtPos > 167.9) {
-  //   if (letterOfCursor == "P") {
-  //     document.getElementById("fullScreenVocabPic").src = "images/pet.jpg";
-  //     showVocabPicFullScreen();
-  //   }
-  // } else if (userHzPos >= 0.193 && userHzPos <= 0.207 && userVtPos < 131.1 && userVtPos > 130.9) {
-  //   if (letterOfCursor == "U") {
-  //     document.getElementById("fullScreenVocabPic").src = "images/blue.jpg";
-  //     showVocabPicFullScreen(letterOfCursor);
-  //   }
-  // }
-
-}
-
-function getRidOfFullScreenVocabPic(imgElement) {
-
 }
 
 function generateRandomVocabWord() {
@@ -760,10 +523,6 @@ function generateRandomVocabWord() {
 
 <img id="netCursor" src="images/net.png">
 
-<div id="acceptableArea"></div>
-
-<!-- <img id="wrongX" src="images/wrongX.png"> -->
-
 </div> <!-- this is the WHOLESCREEN div -->
 
 <div id="startingCurtain">
@@ -771,17 +530,10 @@ function generateRandomVocabWord() {
 <div id="startingPicDiv"><img id="butterflyStartGif" src="images/startingPic.gif" onclick="startingCurtainGoUp()"></div>
 </div>
 
-<img id="fullScreenVocabPic" src="planet.jpg" onclick="getRidOfFullScreenVocabPic(this)">
-
 <div id="gameOverScreen">
   GOOD JOB!
 <img id="happyHippoGif" src="images/happy2.gif">
 </div>
-
-<div id="hitbox"></div>
-
-
-
 
 </body>
 </html>
