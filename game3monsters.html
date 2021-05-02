@@ -9,7 +9,7 @@
 <!-- butterfly styles:
 1 (long antennae)   E M N T Z L
 2 (short antennae)  A P R U W
-3 (inv antennae)    B I Q C -->
+3 (inv antennae)    B I Q C D -->
 
 <style>
 
@@ -171,7 +171,7 @@ display: inline-block;
 }
 
 #gameOverScreen {
-  background-color: #9FD;
+  background-color: #AFA;
   font-size: 15vw;
   text-align: center;
   display: block;
@@ -193,7 +193,7 @@ display: inline-block;
   100%  {top: 0vh;}
 }
 
-#happyHippoGif {
+#finalScreenGif {
   position: absolute;
   bottom: 5vh;
   height: 55vh;
@@ -259,8 +259,8 @@ window.onload = function() {
   var bodyDimensions = document.body.getBoundingClientRect();
   document.getElementById("butterflyStartGif").style.left = (bodyDimensions.width-butterflyStartGifPos.width)/2 + "px";
 
-  var happyHippoGifPos = document.getElementById("happyHippoGif").getBoundingClientRect();
-  document.getElementById("happyHippoGif").style.left = (bodyDimensions.width-happyHippoGifPos.width)/2 + "px";
+  var finalScreenGifPos = document.getElementById("finalScreenGif").getBoundingClientRect();
+  document.getElementById("finalScreenGif").style.left = (bodyDimensions.width-finalScreenGifPos.width)/2 + "px";
 
 
 }     ///////////////////// END OF window.onload FUNCTION /////////////////////////////////////////////////
@@ -333,7 +333,7 @@ function generateButterflies() {
     newButterfly.setAttribute("class", "butterflyImgElement");
     // var randomLetter = String.fromCharCode(65 + Math.random()*26);           // this was for the whole alphabet
     var randomLetter = Math.floor(Math.random()*miniAlphabet.length);           // generate random int in the range of the indices of the letter list
-    alert(miniAlphabet.length);
+    //alert(randomLetter);
     randomLetter = miniAlphabet[randomLetter];                                  // assign actual letter
     var awaitedLetter = "";
 
@@ -343,7 +343,7 @@ function generateButterflies() {
         break;
       }
     }
-    if (recentLetterRecord.length > 2) {    // we'll force it to be the needed letter
+    if (recentLetterRecord.length > 2 && awaitedLetter != "") {    // we'll force it to be the needed letter
       randomLetter = awaitedLetter;
     }
 
@@ -492,7 +492,8 @@ function wordSpelledSuccessfully() {
 }
 
 function generateRandomVocabWord() {
-  if (vocabulary.length == 0) {
+  // if (vocabulary.length == 0) {
+  if (vocabulary.length < 6) {
     document.getElementById("gameOverScreen").style.animationPlayState = "running";
   }
   var arrayToReturn = [];
@@ -532,7 +533,7 @@ function generateRandomVocabWord() {
 
 <div id="gameOverScreen">
   GOOD JOB!
-<img id="happyHippoGif" src="images/happy2.gif">
+<img id="finalScreenGif" src="images/finalButterflies.gif">
 </div>
 
 </body>
