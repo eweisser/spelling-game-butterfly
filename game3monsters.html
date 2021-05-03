@@ -9,7 +9,7 @@
 <!-- butterfly styles:
 1 (long antennae)   E M N T Z L
 2 (short antennae)  A P R U W
-3 (inv antennae)    B I Q C D -->
+3 (inv antennae)    B I Q C D F -->
 
 <style>
 
@@ -172,11 +172,12 @@ display: inline-block;
 
 #gameOverScreen {
   background-color: #AFA;
-  font-size: 15vw;
+  font-size: 14vw;
   text-align: center;
   display: block;
   position: fixed;
-  font-family: "Arial";
+  font-family: "Georgia";
+  text-shadow: 6px 6px #393;
   font-weight: bold;
   left: 0%;
   width: 100%;
@@ -493,7 +494,7 @@ function wordSpelledSuccessfully() {
 
 function generateRandomVocabWord() {
   // if (vocabulary.length == 0) {
-  if (vocabulary.length < 6) {
+  if (vocabulary.length < 7) {
     document.getElementById("gameOverScreen").style.animationPlayState = "running";
   }
   var arrayToReturn = [];
