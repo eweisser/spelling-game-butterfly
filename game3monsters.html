@@ -7,9 +7,9 @@
 <!-- read about pointer lock or mouse lock at https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API ...there's also another link in the bookmarks-->
 
 <!-- butterfly styles:
-1 (long antennae)   E M N T Z L
-2 (short antennae)  A P R U W
-3 (inv antennae)    B I Q C D F -->
+1 (long antennae)   E M N T Z L G
+2 (short antennae)  A P R U W O
+3 (inv antennae)    B I Q C D F S -->
 
 <style>
 
@@ -207,7 +207,6 @@ display: inline-block;
 
 <script>
 var gameBegun = false;
-
 var miniAlphabet = ["A","B","C","D","E","F","G","I","L","M","N","O","P","R","S","T","U"];
 //var vocabulary = ["pin","tin","win","bin","man","quiz"];
 var vocabulary = ["drum","dragon","barbecue","grill","trumpet","crab","friends","costume"];
@@ -276,7 +275,6 @@ function startingCurtainGoUp() {
 
 function swingNet() {
   if (gameBegun) {
-    // document.getElementById("netCursor").style.transform = "rotate(50deg)";
     var swingNetAnimation = setInterval(frame, 5);
     var angle = 0;
     var swingForwards = true;
@@ -284,11 +282,7 @@ function swingNet() {
 
 
     function frame() {
-      // var angle = window.getComputedStyle(document.getElementById("letterSelectionCurtain")).transform;
-      // alert(angle);
-      // angle = Number(pos.slice(0,-2));
       if (angle >= 0 && !swingForwards) {
-        // document.getElementById("letterSelectionCurtain").style.bottom = window.innerHeight + "px";
         swingForwards = true;
         angle = 0;
         clearInterval(swingNetAnimation);
@@ -306,11 +300,8 @@ function swingNet() {
     var cursor = document.getElementById('netCursor');
     var cursorDimensions = cursor.getBoundingClientRect();
     var netImgCenterPoint = [cursorDimensions.left + cursorDimensions.width/2, cursorDimensions.top + cursorDimensions.height/2];
-    // alert(netImgCenterPoint);
 
-    // alert(cursorDimensions.left);
     for (let butterfly of butterflyCollection) {
-      // console.log(butterfly.src);
       var butterflyDimensions = butterfly.getBoundingClientRect();
       var butterflyCenterPoint = [butterflyDimensions.left + butterflyDimensions.width/2, butterflyDimensions.top + butterflyDimensions.height/2];
       var netToButterflyDistance = Math.pow(Math.pow((butterflyCenterPoint[0]-netImgCenterPoint[0]),2) + Math.pow((butterflyCenterPoint[1]-netImgCenterPoint[1]),2),0.5);
@@ -319,22 +310,17 @@ function swingNet() {
         window.setTimeout(butterflyIsCaught.bind(null, butterfly), 200);
       }
     }
-
-
-
   }         // end of 'if game has begun...'
 }           // end of 'swingNet'
 
 function generateButterflies() {
-  if (butterflyCount < 7) {
+  if (butterflyCount < 7) {         // how many butterflies do you want on screen at once?
     butterflyCount++;
-    //console.log(butterflyCount);
     var speedMultiplier = 2;
     var newButterfly = document.createElement("IMG");
     newButterfly.setAttribute("class", "butterflyImgElement");
     // var randomLetter = String.fromCharCode(65 + Math.random()*26);           // this was for the whole alphabet
     var randomLetter = Math.floor(Math.random()*miniAlphabet.length);           // generate random int in the range of the indices of the letter list
-    //alert(randomLetter);
     randomLetter = miniAlphabet[randomLetter];                                  // assign actual letter
     var awaitedLetter = "";
 
@@ -444,11 +430,9 @@ function generateButterflies() {
         butterflyCount--;
         newButterfly.remove();
       } else {
-        // console.log(butterflyVtPos);
-        // console.log(butterflyMovementVectorArray[1]);
+
         butterflyHzPos = butterflyHzPos + butterflyMovementVectorArray[0]*speedMultiplier;
         butterflyVtPos = butterflyVtPos - butterflyMovementVectorArray[1]*speedMultiplier;
-        // console.log(butterflyVtPos);
       }
       newButterfly.style.left = butterflyHzPos + "px";
       newButterfly.style.top = butterflyVtPos + "px";
@@ -461,12 +445,7 @@ function generateButterflies() {
     var butterflyMovementVectorArray = [0,0];
     butterflyMovementVectorArray[0] = Math.sin(butterflyAngleRadians);
     butterflyMovementVectorArray[1] = Math.cos(butterflyAngleRadians);
-    // if (butterflyAngle >= 0) {
-    //   return 10;
-    // }
-    // alert(butterflyAngle);
     return butterflyMovementVectorArray;
-    // alert(Math.sin(butterflyAngleRadians));
   }
 
 
@@ -488,20 +467,20 @@ function butterflyIsCaught(butterflyElement) {
 }
 
 function wordSpelledSuccessfully() {
-  document.getElementById("vocabPicture").style.animationPlayState = "running";  // run the animation of the just-spelled word enlarging
-  document.getElementById("lettersCaptured").style.animationPlayState = "running";  // run the animation of the just-spelled word enlarging
+  document.getElementById("vocabPicture").style.animationPlayState = "running";  // run the animation of the just-spelled word's image moving to the left
+  document.getElementById("lettersCaptured").style.animationPlayState = "running";  // run the animation of the just-spelled word changing color and moving to the right
 }
 
 function generateRandomVocabWord() {
-  // if (vocabulary.length == 0) {
-  if (vocabulary.length < 7) {
+  if (vocabulary.length == 0) {
+  // if (vocabulary.length < 7) {     // for testing, if you want to see the 'game over' screen faster
     document.getElementById("gameOverScreen").style.animationPlayState = "running";
   }
   var arrayToReturn = [];
   var randomInt = Math.floor((Math.random() * vocabulary.length ));
   currentVocabWord = vocabulary[randomInt];
 
-  var vocabWordFilename = "images/" + currentVocabWord + "Small.png";
+  var vocabWordFilename = "images/" + currentVocabWord + ".png";
 
   arrayToReturn = [vocabWordFilename, currentVocabWord];
   return arrayToReturn;
@@ -510,7 +489,6 @@ function generateRandomVocabWord() {
 </script>
 
 <body onmousedown="swingNet()">
-  <!-- normally 3.2, a good test value for seeing more is 5 -->
 
 <audio id="whiffSound">
 <source src="sounds/whiff2.wav" type="audio/wav">
@@ -519,13 +497,13 @@ function generateRandomVocabWord() {
 <div id="wholescreen">
 
 <div id="topWhite">
-<img id="vocabPicture" src="images/trumpetSmall.png">
+<img id="vocabPicture" src="images/trumpet.png">
 <div id="lettersCaptured"></div>
 </div>
 
 <img id="netCursor" src="images/net.png">
 
-</div> <!-- this is the WHOLESCREEN div -->
+</div> <!-- end of the WHOLESCREEN div -->
 
 <div id="startingCurtain">
 <div id="justTitle">BUTTERFLY<br>CATCHER</div>
