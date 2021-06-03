@@ -2,7 +2,14 @@
 <html>
 <head>
   <meta charset="UTF-8">
-<title>STORIX Monsters book 3: Butterfly Catcher</title>
+<title>STORIX People book 3: Butterfly Catcher</title>
+
+<!-- read about pointer lock or mouse lock at https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API ...there's also another link in the bookmarks-->
+
+<!-- butterfly styles:
+1 (long antennae)   E M N T Z L G J K
+2 (short antennae)  A P R U W O H
+3 (inv antennae)    B I Q C D F S Y -->
 
 <style>
 
@@ -200,9 +207,9 @@ display: inline-block;
 
 <script>
 var gameBegun = false;
-var miniAlphabet = ["A","B","I","M","N","P","Q","T","U","W","Z"];
+var miniAlphabet = ["A","B","C","D","E","F","G","I","L","M","N","O","P","R","S","T","U"];
 //var vocabulary = ["pin","tin","win","bin","man","quiz"];
-var vocabulary = ["tin","pin","bin","man","win","quiz"];
+var vocabulary = ["drum","dragon","barbecue","grill","trumpet","crab","friends","costume"];
 var recentLetterRecord = [];
 var currentVocabWord = "";
 var currentVocabularyIndex = 0;
@@ -365,6 +372,7 @@ function generateButterflies() {
       } while (hzPosInVW < -5 || hzPosInVW > 95);
       newButterfly.style.left = hzPosInVW + "vw";
       newButterfly.style.top = "100vh";
+      // console.log(newButterfly.style.left + " bottom");
 
     } else {                                                  // if the butterfly is flying downward...
       adjAngle = randomAngle-150;
@@ -374,7 +382,34 @@ function generateButterflies() {
       } while (hzPosInVW < -5 || hzPosInVW > 95);
       newButterfly.style.left = hzPosInVW + "vw";
       newButterfly.style.top = "-5vh";                      // used to be -10vh before top stripe
+      // console.log(newButterfly.style.left + " top");
     }
+
+    // if ((randomAngle >= 0 && randomAngle <= 32.5) || (randomAngle <= 360 && randomAngle > 327.5)) {       // origin bottom center
+    //   newButterfly.style.left = "45vw";
+    //   newButterfly.style.top = "100vh";
+    // } else if (randomAngle > 32.5 && randomAngle <= 77.5) {         // origin bottom left
+    //   newButterfly.style.left = "-10vw";
+    //   newButterfly.style.top = "100vh";
+    // } else if (randomAngle > 77.5 && randomAngle <= 102.5) {        // origin left center
+    //   newButterfly.style.left = "-10vw";
+    //   newButterfly.style.top = "45vh";
+    // } else if (randomAngle > 102.5 && randomAngle <= 147.5) {       // origin top left
+    //   newButterfly.style.left = "-10vw";
+    //   newButterfly.style.top = "-10vh";
+    // } else if (randomAngle > 147.5 && randomAngle <= 212.5) {       // origin top center
+    //   newButterfly.style.left = "45vw";
+    //   newButterfly.style.top = "-10vh";
+    // } else if (randomAngle > 212.5 && randomAngle <= 257.5) {       // origin top right
+    //   newButterfly.style.left = "100vw";
+    //   newButterfly.style.top = "-10vh";
+    // } else if (randomAngle > 257.5 && randomAngle <= 282.5) {       // origin right center
+    //   newButterfly.style.left = "100vw";
+    //   newButterfly.style.top = "45vh";
+    // } else if (randomAngle > 282.5 && randomAngle <= 327.5) {       // origin bottom right
+    //   newButterfly.style.left = "100vw";
+    //   newButterfly.style.top = "100vh";
+    // }
 
     newButterfly.setAttribute("id","butterfly"+butterflyCount);
 
@@ -462,7 +497,7 @@ function generateRandomVocabWord() {
 <div id="wholescreen">
 
 <div id="topWhite">
-<img id="vocabPicture" src="images/pin.png">
+<img id="vocabPicture" src="images/trumpet.png">
 <div id="lettersCaptured"></div>
 </div>
 
